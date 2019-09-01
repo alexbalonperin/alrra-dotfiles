@@ -18,6 +18,7 @@
     p   = push
     r   = rebase
     s   = status
+    st   = status
     w   = instaweb --httpd=webrick              # Start web-based visualizer.
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
