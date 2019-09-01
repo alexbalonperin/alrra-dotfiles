@@ -24,7 +24,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 ./photos.sh
 ./safari.sh
 ./security.sh
-./spectable.sh
 ./terminal.sh
 ./textedit.sh
 ./trackpad.sh
