@@ -5,23 +5,36 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+copy_config() {
+  execute "ln -s ./vim/init.vim $HOME/.config/nvim/init.vim" \
+    "Copy nvim config"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 install_plugins() {
+    execute "nvim --headless +PlugUpgrade +PlugInstall +UpdateRemotePlugins +qa" \
+      "Install plugins"
+}
 
-    declare -r VIM_PACK_DIR="$HOME/.vim/pack"
-    declare -r MINPAC_DIR="$VIM_PACK_DIR/minpac/opt/minpac"
-    declare -r MINPAC_GIT_REPO_URL="https://github.com/k-takata/minpac.git"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+install_metals() {
+  brew_tap "coursier/formulas"
+  brew_install "Coursier" "coursier/formulas/coursier"
+  execute "coursier bootstrap \
+              --java-opt -Xss4m \
+              --java-opt -Xms100m \
+              --java-opt -Dmetals.client=coc.nvim \
+              org.scalameta:metals_2.12:0.7.0 \
+              -r bintray:scalacenter/releases \
+              -r sonatype:snapshots \
+              -o /usr/local/bin/metals-vim -f" \
+    "Generate metals binary"
 
-    # Install plugins.
+  execute "cp ./vim/coc-settings.json $HOME/.config/nvim/coc-settings.json" \
+    "Copy nvim config"
 
-    execute \
-        "rm -rf $VIM_PACK_DIR \
-            && git clone --quiet $MINPAC_GIT_REPO_URL $MINPAC_DIR" \
-        "Install plugins" \
-        || return 1
-
-    vim +PluginsSetup
 
 }
 
@@ -32,7 +45,9 @@ main() {
     print_in_purple "\n   Vim\n\n"
 
     "./$(get_os)/vim.sh"
-#    install_plugins
+    copy_config
+    install_plugins
+    install_metals
 
 }
 

@@ -1,0 +1,331 @@
+" GENERAL {{{1
+" SETTINGS {{{2
+
+" Miscallenous {{{3
+set hidden                      " Hide files when leaving them.
+set number                      " Show line numbers.
+set numberwidth=1               " Minimum line number column width.
+set cmdheight=120                 " Number of screen lines to use for the commandline.
+set textwidth=0                 " Lines length limit (0 if no limit).
+set formatoptions=jtcrq         " Sensible default line auto cutting and formatting.
+set linebreak                   " Don't cut lines in the middle of a word .
+set showmatch                   " Shows matching parenthesis.
+set matchtime=2                 " Time during which the matching parenthesis is shown.
+set background=dark             " Color adapted to dark background.
+set statusline=%f\ %m%=[%l/%L]  " Status line (filename [modified] ...  [currentLine / totalLines])
+set listchars=tab:▸\ ,eol:¬     " Invisible characters representation when :set list.
+set clipboard=unnamedplus       " Copy/Paste to/from clipboard
+set cursorline                  " Highlight line cursor is currently on
+"set completeopt+=noinsert       " Select the first item of popup menu automatically without inserting it
+set autoread                    " Automatically re-read files that have been modified outside vim
+
+" Search {{{3
+set incsearch  " Incremental search.
+set ignorecase " Case insensitive.
+set smartcase  " Case insensitive if no uppercase letter in pattern, case sensitive otherwise.
+set nowrapscan " Don't go back to first match after the last match is found.
+
+" Fold {{{3
+set foldmethod=manual
+set foldlevelstart=20
+
+" Indentation {{{3
+set autoindent
+set smartindent
+
+" Tabs {{{3
+set expandtab     " Tab transformed in spaces
+set tabstop=2     " Sets tab character to correspond to x columns.
+" x spaces are automatically converted to <tab>.
+" If expandtab option is on each <tab> character is converted to x spaces.
+set softtabstop=2 " column offset when PRESSING the tab key or the backspace key.
+set shiftwidth=2  " column offset when using keys '>' and '<' in normal mode.
+
+" MAPPINGS {{{2
+
+let mapleader = ","
+set timeoutlen=700 " time in milliseconds that is waited for the next mapping key
+
+" <Esc> {{{3
+noremap <leader>m <Esc>
+inoremap <leader>m <Esc>
+cnoremap <leader>m <Esc>
+tnoremap <leader>m <C-\><C-n>
+
+" Navigate inside a wrapped line {{{3
+noremap <Up> :normal! gk<CR>
+noremap <Down> :normal! gj<CR>
+
+" Handle window actions with Meta instead of <C-w> {{{3
+" Switching
+nnoremap <M-h> <C-w>h
+nnoremap <M-j> <C-w>j
+nnoremap <M-k> <C-w>k
+nnoremap <M-l> <C-w>l
+
+" Moving
+nnoremap <M-H> <C-w>H
+nnoremap <M-J> <C-w>J
+nnoremap <M-K> <C-w>K
+nnoremap <M-L> <C-w>L
+nnoremap <M-x> <C-w>x
+
+" Resizing
+nnoremap <M-=> <C-w>=
+nnoremap <M-+> <C-w>10+
+nnoremap <M--> <C-w>10-
+nnoremap <M-<> <C-w>10<
+nnoremap <M->> <C-w>10>
+
+" Creating
+nnoremap <M-n> <C-w>n
+nnoremap <M-s> <C-w>s
+nnoremap <M-v> <C-w>v
+nnoremap <M-]> <C-w>g<C-]>
+
+" Closing
+nnoremap <M-c> <C-w>c
+nnoremap <M-o> <C-w>o
+
+" Quickfix
+nnoremap <M-Enter> <C-w><CR>
+
+" Switch between buffers {{{3
+nnoremap <C-l> :bn<CR>
+nnoremap <C-h> :bp<CR>
+nnoremap <leader>b :Buffers<CR>
+
+" Quickfix list {{{3
+noremap <silent> <leader>q :Ctoggle<CR>
+noremap <silent> <S-l> :cprevious<CR>
+noremap <silent> <S-h> :cnext<CR>
+
+" Move to next fold {{{3
+nnoremap <C-k> zk
+nnoremap <C-j> zj
+
+" More/Less foldlevel {{{3
+nnoremap <M-r> zr
+nnoremap <M-e> zm
+
+" Clipboard {{{3
+inoremap <C-r>e <C-r>+
+cnoremap <C-r>e <C-r>+
+
+function! ClipboardUseToggle()
+  if &clipboard ==# "unnamedplus"
+    set clipboard=""
+  else
+    set clipboard=unnamedplus
+  endif
+  echom "clipboard=" . &clipboard
+endfunction
+nnoremap <silent> <leader>r :call ClipboardUseToggle()<CR>
+
+function! TrimWhitespace()
+    let l:save_cursor = getpos('.')
+    %s/\s\+$//e
+    call setpos('.', l:save_cursor)
+endfun
+
+command! TrimWhitespace call TrimWhitespace() " Trim whitespace with command
+autocmd BufWritePre * :call TrimWhitespace()  " Trim whitespace on every save
+
+" Remove search highlighting {{{3
+nnoremap <silent> <leader>, :nohlsearch<CR>
+
+" Clear command line {{{3
+nnoremap <C-\> :<BS>
+
+" Redraws the screen {{{3
+nnoremap <leader>d :redraw!<CR>
+
+" Toggle display of tabs and EOF {{{3
+nnoremap <leader>l :set list!<CR>
+
+" Remove trailing whitespace {{{3
+" use of '<silent>' to hide what would be output on the command line
+" use of ':silent!' to hide error message when pattern is not found
+nnoremap <silent> <leader>w :silent! execute '/\v( )+$'<CR>
+nnoremap <silent> <leader>W :silent! execute '%substitute/\v( )+$//'<CR>
+
+" Modify init.vim easily {{{3
+nnoremap <leader>ev :edit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" Auto-commands {{{1
+" Vimscript {{{2
+augroup vimscript_augroup
+  autocmd!
+  autocmd FileType vim nnoremap <buffer> <M-z> :execute "help" expand("<cword>")<CR>
+augroup END
+
+" Scala {{{2
+augroup scala_augroup
+  autocmd!
+  "  autocmd BufWritePre *.{scala,sbt} Neoformat
+  "  autocmd BufWrite * Autoformat
+  autocmd BufWritePost *.scala Neomake
+augroup END
+
+" PLUGINS {{{1
+" INSTALL {{{2
+let s:NVIM_HOME = "/" . join(split($MYVIMRC, "/")[0 : -2], "/")
+let s:PLUGINS_DIR_NAME = "plugged"
+
+call plug#begin(s:NVIM_HOME . "/" . s:PLUGINS_DIR_NAME)
+Plug 'altercation/vim-colors-solarized'
+Plug 'derekwyatt/vim-scala'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'nelstrom/vim-visual-star-search'
+Plug 'neomake/neomake'
+Plug 'scrooloose/nerdtree'
+Plug 'sjl/gundo.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-abolish'
+
+"Plug 'sbdchd/neoformat'
+"Plug 'Chiel92/vim-autoformat'
+call plug#end()
+
+" SETTINGS {{{2
+" Airline {{{3
+let g:airline_theme='solarized'
+let g:airline_powerline_fonts=1
+
+" Solarized {{{3
+colorscheme solarized
+
+" MAPPINGS {{{2
+" NERDTree {{{3
+nnoremap <silent> <leader>t :NERDTreeToggle<CR>
+nnoremap <silent> <leader>f :NERDTreeFind <CR>
+
+" Gundo {{{3
+nnoremap <leader>u :GundoToggle<CR>
+
+" AUGROUPS {{{2
+" Fugitive {{{3
+augroup fugitive_plugin
+  autocmd!
+  autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
+
+" AutoFormat
+" Start NailGun server
+"function! StartNailgunScalaFmt()
+"  execute(':silent! !scalafmt_ng 2>/dev/null 1>/dev/null &')
+"  execute(':redraw!')
+"endfunction
+"call StartNailgunScalaFmt()
+
+"let g:formatdef_scalafmt = '"ng scalafmt --stdin"'
+"let g:formatters_scala = ['scalafmt']
+
+"
+"let g:neoformat_scala_scalafmt = {
+"        \ 'exe': 'ng',
+"        \ 'args': ['scalafmt', '--stdin'],
+"        \ 'stdin': 1,
+"        \ }
+"
+"let g:neoformat_scala_scalafmt = {
+"        \ 'exe': 'ng',
+"        \ 'args': ['scalafmt'],
+"        \ 'stdin': 1
+"        \ }
+"
+"let g:neoformat_verbose = 1
+
+" Configuration for vim-scala
+au BufRead,BufNewFile *.sbt set filetype=scala
+
+" Comment highlights for coc
+autocmd FileType json syntax match Comment +\/\/.\+$+
+
+" Configuration for coc.nvim
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" Some server have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <M-space> coc#refresh()
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use [c and ]c for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Remap for do codeAction of current line
+nmap <leader>ac <Plug>(coc-codeaction)
+
+" Remap for do action format
+nnoremap <silent> F :call CocAction('format')<CR>
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}

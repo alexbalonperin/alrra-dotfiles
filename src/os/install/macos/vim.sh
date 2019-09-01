@@ -5,4 +5,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-brew_install "Vim" "vim"
+brew_install "Neovim" "neovim"
+brew_install "Python" "python"
+pip3 install pynvim
