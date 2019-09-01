@@ -20,3 +20,7 @@ execute "defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Track
          defaults write com.apple.AppleMultitouchTrackpad TrackpadCornerSecondaryClick -int 0 && \
          defaults -currentHost write -g com.apple.trackpad.trackpadCornerClickBehavior -int 0" \
     "Map 'click or tap with two fingers' to the secondary click"
+
+execute "defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false" \
+    "Disable 'natural' (Lion-style) scrolling"
+

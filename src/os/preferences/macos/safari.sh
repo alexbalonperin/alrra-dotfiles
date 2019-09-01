@@ -43,4 +43,7 @@ execute "defaults write -g WebKitDeveloperExtras -bool true" \
 execute "defaults write com.apple.Safari WebKitInitialTimedLayoutDelay 0.25" \
     "Disable the standard delay in rendering a web page."
 
+execute "defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true" \
+    "Enable 'Do Not Track'"
+
 killall "Safari" &> /dev/null

@@ -14,13 +14,17 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 ./app_store.sh
 ./chrome.sh
 ./dock.sh
+./energy_saver.sh
 ./finder.sh
 ./firefox.sh
 ./keyboard.sh
 ./language_and_region.sh
 ./maps.sh
+./misc.sh
 ./photos.sh
 ./safari.sh
+./security.sh
+./spectable.sh
 ./terminal.sh
 ./textedit.sh
 ./trackpad.sh

@@ -11,7 +11,7 @@ execute "defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool
          defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true" \
    "Avoid creating '.DS_Store' files on network or USB volumes"
 
-execute "defaults write com.apple.menuextra.battery ShowPercent -string 'NO'" \
+execute "defaults write com.apple.menuextra.battery ShowPercent -string 'YES'" \
     "Hide battery percentage from the menu bar"
 
 execute "sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true" \
@@ -72,8 +72,8 @@ execute "defaults write -g PMPrintingExpandedStateForPrint -bool true" \
 execute "defaults write -g QLPanelAnimationDuration -float 0" \
     "Disable opening a Quick Look window animations."
 
-execute "defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false" \
-    "Disable resume system-wide"
+execute "defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool true" \
+    "Enable resume system-wide"
 
 execute "sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string 'Laptop' && \
          sudo scutil --set ComputerName 'laptop' && \

@@ -19,6 +19,9 @@ execute "defaults write -g 'InitialKeyRepeat_Level_Saved' -int 10" \
 execute "defaults write -g KeyRepeat -int 1" \
     "Set the key repeat rate to fast"
 
+execute "defaults write NSGlobalDomain InitialKeyRepeat -int 10" \
+    "Set the initial key repeat rate to fast"
+
 execute "defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false" \
     "Disable automatic capitalization"
 

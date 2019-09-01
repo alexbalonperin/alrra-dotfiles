@@ -7,7 +7,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Terminal\n\n"
 
-execute "defaults write com.apple.terminal FocusFollowsMouse -string true" \
+execute "defaults write com.apple.terminal FocusFollowsMouse -string false" \
     "Make the focus automatically follow the mouse"
 
 execute "defaults write com.apple.terminal SecureKeyboardEntry -bool true" \

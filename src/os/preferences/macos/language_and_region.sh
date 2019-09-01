@@ -12,3 +12,6 @@ execute "defaults write -g AppleLanguages -array 'en'" \
 
 execute "defaults write -g AppleMeasurementUnits -string 'Centimeters'" \
     "Set measurement units"
+
+execute "defaults write NSGlobalDomain AppleMetricUnits -bool true" \
+    "Set metric units"
