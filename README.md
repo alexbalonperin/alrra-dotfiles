@@ -1,4 +1,6 @@
-# [Cătălin](https://github.com/alrra)’s dotfiles [![Build Status](https://travis-ci.org/alrra/dotfiles.svg?branch=master)](https://travis-ci.org/alrra/dotfiles)
+# [Alex](https://github.com/alexbalonperin)’s dotfiles [![Build Status](https://travis-ci.org/alexbalonperin/dotfiles.svg?branch=master)](https://travis-ci.org/alexbalonperin/dotfiles)
+
+ALL CREDITS GOES TO Cătălin Mariș (https://github.com/alrra). I have shamelessly forked and adapted from his repository (https://github.com/alrra/dotfiles).
 
 These are the base dotfiles that I start with when I set up a
 new environment. For more specific local needs I use the `.local`
