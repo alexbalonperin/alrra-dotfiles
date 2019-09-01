@@ -27,7 +27,7 @@ create_symlinks() {
 
         "tmux/tmux.conf"
 
-#        "irssi/irssi"
+        "irssi/irssi"
 
     )
 
@@ -86,13 +86,13 @@ create_other_symlinks() {
     declare -a FILES_TO_SYMLINK=(
       "vim/init.vim"
       "vim/coc-settings.json"
-#      "spectacle/spectacle.json"
+      "spectacle/spectacle.json"
     )
 
     declare -a TARGETS_FOR_SYMLINK=(
       "$HOME/.config/nvim/init.vim"
       "$HOME/.config/nvim/coc-settings.json"
-#      "$HOME/Library/Application\ Support/Spectacle/Shortcuts.json"
+      "$HOME/Library/Application\ Support/Spectacle/Shortcuts.json"
     )
 
     local i=0
