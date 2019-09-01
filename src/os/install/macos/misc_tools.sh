@@ -21,6 +21,7 @@ brew_install "JQ" "jq"
 brew_install "Tor" "tor"
 brew_install "Docker" "docker"
 brew_install "Docker Compose" "docker-compose"
+brew_install "Direnv" "direnv"
 #brew_install "Visual Studio Code" "visual-studio-code" "caskroom/cask" "cask"
 
 if [ -d "$HOME/.nvm" ]; then
