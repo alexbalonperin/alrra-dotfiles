@@ -8,8 +8,10 @@
     cp  = cherry-pick
     d   = diff -- . ':!*package-lock.json' ':!*yarn.lock'
     dc  = diff --cached -- . ':!*package-lock.json' ':!*yarn.lock'
+    ds  = diff --staged
     f   = fetch
     g   = log --graph --pretty=custom           # Show custom graph.
+    lgd = log --oneline --graph --decorate      # Show clean graph
     git = !exec git                             # Allow `$ git git git...`
     l   = log --pretty=custom                   # Show custom log.
     lc  = shortlog --email --numbered --summary # List contributors.
@@ -120,16 +122,21 @@
     local = green
     remote = yellow
 
+#diff-so-fancy configs
 [color "diff"]
+	whitespace = red reverse
+	meta = 11
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
 
-    frag = magenta
-    meta = yellow
-
-    new = green
-    old = red
-
-    newMoved = cyan
-    oldMoved = blue
+#diff-so-fancy configs
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
 
 [color "status"]
 
@@ -137,12 +144,16 @@
     changed = yellow reverse
     untracked = red reverse
 
+[color]
+    ui = true
+
 [core]
 
     abbrev = 12
     attributesfile = ~/.gitattributes
     autocrlf = input
-    editor = vim
+    editor = nvim
+    pager = diff-so-fancy | less --tabs=4 -RFX
     excludesfile = ~/.gitignore
 
 [diff]
@@ -162,13 +173,12 @@
 
 [pretty]
 
-    custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %C(green)%s %C(yellow)(%an)"
-    #                     │        │            │            │             └─ author name
-    #                     │        │            │            └─ message
-    #                     │        │            └─ date (relative)
-    #                     │        └─ decorations (branch, heads or tags)
-    #                     └─ hash (abbreviated)
-
+    custom = "%C(yellow)%h %C(cyan)%ai %C(white)%<(22,trunc)%aN %C(green)%s %C(red)%d"
+    #                    │         │                        │             │        └─ decorations (branch, heads or tags)
+    #                    │         │                        │             └─ commit message
+    #                    │         │                        └─ author name
+    #                    │         └─ date (absolute)
+    #                    └─ hash (abbreviated)
 
 [push]
 
