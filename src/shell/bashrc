@@ -2,3 +2,7 @@
 
 [ -n "$PS1" ] \
     && . ~/.bash_profile
+
+
+# SBT options
+export SBT_OPTS="-Xmx4G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xss2M"
