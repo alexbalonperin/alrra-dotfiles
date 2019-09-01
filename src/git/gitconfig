@@ -141,9 +141,9 @@
 
 [color "status"]
 
-    added = green reverse
-    changed = yellow reverse
-    untracked = red reverse
+    added = green
+    changed = yellow
+    untracked = red
 
 [color]
     ui = true
