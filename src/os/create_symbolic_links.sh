@@ -107,7 +107,7 @@ create_other_symlinks() {
         && skipQuestions=true
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    for (( i=0; i<$len; i++ )); do
+    for (( i=0; i< len; i++ )); do
         sourceFile="$(cd .. && pwd)/${FILES_TO_SYMLINK[$i]}"
         targetFile="${TARGETS_FOR_SYMLINK[$i]}"
 
