@@ -19,7 +19,7 @@ alias map="xargs -n1"
 alias n="npm"
 alias path='printf "%b\n" "${PATH//:/\\n}"'
 alias q="exit"
-alias rm="rm -rf --"
+#alias rm="rm -rf --"
 alias t="tmux"
 alias y="yarn"
 

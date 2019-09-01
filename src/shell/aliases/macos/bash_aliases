@@ -32,8 +32,8 @@ alias clear-dns-cache="sudo dscacheutil -flushcache; \
 
 alias empty-trash="sudo rm -frv /Volumes/*/.Trashes; \
                    sudo rm -frv ~/.Trash; \
-                   sudo rm -frv /private/var/log/asl/*.asl; \
-                   sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
+                   sudo rm -frv /private/var/log/asl/*.asl;"# \
+#                   sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
