@@ -29,6 +29,8 @@ create_symlinks() {
 
         "irssi/irssi"
 
+        "psql/psqlrc"
+
     )
 
     local i=""
