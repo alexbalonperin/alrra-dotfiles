@@ -174,9 +174,9 @@ let s:NVIM_HOME = "/" . join(split($MYVIMRC, "/")[0 : -2], "/")
 let s:PLUGINS_DIR_NAME = "plugged"
 
 call plug#begin(s:NVIM_HOME . "/" . s:PLUGINS_DIR_NAME)
-Plug 'altercation/vim-colors-solarized'
+"Plug 'altercation/vim-colors-solarized'
 Plug 'derekwyatt/vim-scala'
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'nelstrom/vim-visual-star-search'
@@ -189,6 +189,7 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-abolish'
+Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 
 "Plug 'sbdchd/neoformat'
 "Plug 'Chiel92/vim-autoformat'
@@ -196,11 +197,11 @@ call plug#end()
 
 " SETTINGS {{{2
 " Airline {{{3
-let g:airline_theme='solarized'
+" let g:airline_theme='solarized'
 let g:airline_powerline_fonts=1
 
 " Solarized {{{3
-colorscheme solarized
+" colorscheme solarized
 
 " MAPPINGS {{{2
 " NERDTree {{{3

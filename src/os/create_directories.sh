@@ -9,6 +9,7 @@ create_directories() {
 
     declare -a DIRECTORIES=(
         "$HOME/Downloads/torrents"
+        "$HOME/.config/nvim"
     )
 
     for i in "${DIRECTORIES[@]}"; do
