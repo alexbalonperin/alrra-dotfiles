@@ -21,5 +21,9 @@ upgrade
 ./../npm.sh
 ./tmux.sh
 ./../vim.sh
+./docker.sh
+./filesystem.sh
+./java.sh
+./scala.sh
 
 ./cleanup.sh
