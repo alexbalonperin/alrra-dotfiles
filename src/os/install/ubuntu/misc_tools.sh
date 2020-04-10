@@ -13,6 +13,7 @@ install_package "ShellCheck" "shellcheck"
 install_package "xclip" "xclip"
 install_package "Gnome Tweak Tool" "gnome-tweak-tool"
 install_package "Ag" "silversearcher-ag"
+install_package "HTop" "htop"
 
 execute "curl https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy > /tmp/diff-so-fancy && sudo mv /tmp/diff-so-fancy /usr/local/bin/diff-so-fancy && sudo chmod u+x /usr/local/bin/diff-so-fancy" \
   "Installing diff-so-fancy"
