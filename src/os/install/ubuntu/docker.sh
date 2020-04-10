@@ -26,3 +26,12 @@ install_package "Containerd" "containerd.io"
 
 execute "sudo systemctl status docker" \
   "Check Docker status"
+
+execute "sudo curl -L \"https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose" \
+  "Install Docker Compose"
+
+execute "sudo chmod +x /usr/local/bin/docker-compose" \
+  "Make Docker Compose executable"
+
+execute "sudo usermod -a -G docker $USER" \
+  "Add current user to docker"
