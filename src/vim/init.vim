@@ -191,8 +191,16 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-abolish'
 Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 
-"Plug 'sbdchd/neoformat'
-"Plug 'Chiel92/vim-autoformat'
+
+Plug 'scrooloose/syntastic'             " syntax checker
+" --- Haskell
+"Plug 'yogsototh/haskell-vim'            " syntax indentation / highlight
+"Plug 'enomsg/vim-haskellConcealPlus'    " unicode for haskell operators
+"Plug 'eagletmt/ghcmod-vim'
+"Plug 'eagletmt/neco-ghc'
+"Plug 'Twinside/vim-hoogle'
+"Plug 'pbrisbin/html-template-syntax'    " Yesod templates
+" --- End Haskell
 call plug#end()
 
 " SETTINGS {{{2
@@ -217,32 +225,6 @@ augroup fugitive_plugin
   autocmd!
   autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
-
-" AutoFormat
-" Start NailGun server
-"function! StartNailgunScalaFmt()
-"  execute(':silent! !scalafmt_ng 2>/dev/null 1>/dev/null &')
-"  execute(':redraw!')
-"endfunction
-"call StartNailgunScalaFmt()
-
-"let g:formatdef_scalafmt = '"ng scalafmt --stdin"'
-"let g:formatters_scala = ['scalafmt']
-
-"
-"let g:neoformat_scala_scalafmt = {
-"        \ 'exe': 'ng',
-"        \ 'args': ['scalafmt', '--stdin'],
-"        \ 'stdin': 1,
-"        \ }
-"
-"let g:neoformat_scala_scalafmt = {
-"        \ 'exe': 'ng',
-"        \ 'args': ['scalafmt'],
-"        \ 'stdin': 1
-"        \ }
-"
-"let g:neoformat_verbose = 1
 
 " Configuration for vim-scala
 au BufRead,BufNewFile *.sbt set filetype=scala
@@ -327,3 +309,38 @@ let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_er
 let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" -------------------
+"       Haskell
+" -------------------
+"
+" ---------- VERY IMPORTANT -----------
+" Don't forget to install ghc-mod with:
+" cabal install ghc-mod
+" -------------------------------------
+
+"let mapleader="-"
+"let g:mapleader="-"
+"set tm=2000
+"nmap <silent> <leader>ht :GhcModType<CR>
+"nmap <silent> <leader>hh :GhcModTypeClear<CR>
+"nmap <silent> <leader>hT :GhcModTypeInsert<CR>
+"nmap <silent> <leader>hc :SyntasticCheck ghc_mod<CR>:lopen<CR>
+"let g:syntastic_mode_map={'mode': 'active', 'passive_filetypes': ['haskell']}
+"let g:syntastic_always_populate_loc_list = 1
+"nmap <silent> <leader>hl :SyntasticCheck hlint<CR>:lopen<CR>
+"
+"" Auto-checking on writing
+"autocmd BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
+"
+""  neocomplcache (advanced completion)
+"autocmd BufEnter *.hs,*.lhs let g:neocomplcache_enable_at_startup = 1
+"function! SetToCabalBuild()
+"    if glob("*.cabal") != ''
+"        set makeprg=cabal\ build
+"    endif
+"endfunction
+"autocmd BufEnter *.hs,*.lhs :call SetToCabalBuild()
+"
+"" -- neco-ghc
+"let $PATH=$PATH.':'.expand("~/.cabal/bin")
