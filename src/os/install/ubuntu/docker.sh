@@ -36,7 +36,7 @@ execute "sudo systemctl status docker" \
 
 print_in_purple "\n   Docker Compose\n\n"
 DOCKER_COMPOSE_PATH="/usr/local/bin/docker-compose"
-if [ -f "$DOCKER_COMPOSE_PATH" ]; then
+if [ ! -f "$DOCKER_COMPOSE_PATH" ]; then
   execute "sudo curl -L \"https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)\" -o $DOCKER_COMPOSE_PATH" \
     "Install Docker Compose"
 
