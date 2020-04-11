@@ -27,11 +27,12 @@ create_symlinks() {
 
         "tmux/tmux.conf"
 
-        "irssi/irssi"
-
         "psql/psqlrc"
-
     )
+
+    if [ "$(get_os)" == "macos" ]; then
+      FILES_TO_SYMLINK+=("irssi/irssi")
+    fi
 
     local i=""
     local sourceFile=""
@@ -88,14 +89,26 @@ create_other_symlinks() {
     declare -a FILES_TO_SYMLINK=(
       "vim/init.vim"
       "vim/coc-settings.json"
-      "spectacle/spectacle.json"
     )
+    if [ "$(get_os)" == "ubuntu" ]; then
+      FILES_TO_SYMLINK+=("irssi/irssi")
+    elif [ "$(get_os)" == "macos" ]; then
+      FILES_TO_SYMLINK+=("spectacle/spectacle.json")
+    else
+      print_error "unknown os $(get_os)"
+    fi
 
     declare -a TARGETS_FOR_SYMLINK=(
       "$HOME/.config/nvim/init.vim"
       "$HOME/.config/nvim/coc-settings.json"
-      "$HOME/Library/Application\ Support/Spectacle/Shortcuts.json"
     )
+    if [ "$(get_os)" == "ubuntu" ]; then
+      TARGETS_FOR_SYMLINK+=("$HOME/.irssi/config")
+    elif [ "$(get_os)" == "macos" ]; then
+      TARGETS_FOR_SYMLINK+=("$HOME/Library/Application\ Support/Spectacle/Shortcuts.json")
+    else
+      print_error "unknown os $(get_os)"
+    fi
 
     local i=0
     local sourceFile=""

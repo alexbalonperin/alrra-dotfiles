@@ -8,9 +8,11 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 create_directories() {
 
     declare -a DIRECTORIES=(
-        "$HOME/Downloads/torrents"
         "$HOME/.config/nvim"
     )
+    if [ "$(get_os)" == "ubuntu" ]; then
+      DIRECTORIES+=("$HOME/.irssi/")
+    fi
 
     for i in "${DIRECTORIES[@]}"; do
         mkd "$i"
