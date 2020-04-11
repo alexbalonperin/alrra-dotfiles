@@ -10,6 +10,7 @@ print_in_purple "\n   Miscellaneous\n\n"
 
 install_package "Transmission" "transmission"
 install_package "VLC" "vlc"
+install_package "IRSSI" "irssi"
 
 if ! package_is_installed "spotify-client"; then
   add_key "https://download.spotify.com/debian/pubkey.gpg" \
