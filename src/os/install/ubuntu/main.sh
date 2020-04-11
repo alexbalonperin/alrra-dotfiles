@@ -23,7 +23,6 @@ upgrade
 ./../vim.sh
 ./docker.sh
 ./filesystem.sh
-./java.sh
-./scala.sh
+./programming.sh
 
 ./cleanup.sh
