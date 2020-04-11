@@ -12,6 +12,9 @@ install_package "Transmission" "transmission"
 install_package "VLC" "vlc"
 install_package "IRSSI" "irssi"
 
+execute "curl https://scripts.irssi.org/scripts/dccstat.pl > ~/.irssi/scripts/autorun/dccstat.pl" \
+  "IRSSI (Download dccstat script)"
+
 if ! package_is_installed "spotify-client"; then
   add_key "https://download.spotify.com/debian/pubkey.gpg" \
     || print_error "Spotify (add key)"

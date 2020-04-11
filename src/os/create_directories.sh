@@ -11,7 +11,7 @@ create_directories() {
         "$HOME/.config/nvim"
     )
     if [ "$(get_os)" == "ubuntu" ]; then
-      DIRECTORIES+=("$HOME/.irssi/")
+      DIRECTORIES+=("$HOME/.irssi/scripts/autorun/")
     fi
 
     for i in "${DIRECTORIES[@]}"; do
