@@ -7,5 +7,6 @@
     }
   },
   "diagnostic.maxWindowHeight": 500,
-  "diagnostic.checkCurrentLine": true
+  "diagnostic.checkCurrentLine": true,
+  "coc.preferences.formatOnSaveFiletypes": ["scala"]
 }
