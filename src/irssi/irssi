@@ -451,7 +451,7 @@ settings = {
     dcc_autoresume = "yes";
     dcc_autoget = "no";
     dcc_autoget_masks = "[MG]-Request|Bot|Bacon";
-    dcc_download_path = "/tmp/";
+    dcc_download_path = "~/Movies/";
   };
   "perl/core/scripts" = {
     dccstat_short_mode = "yes";
