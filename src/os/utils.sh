@@ -127,7 +127,12 @@ get_os() {
         os="macos"
     elif [ "$kernelName" == "Linux" ] && \
          [ -e "/etc/os-release" ]; then
-        os="$(. /etc/os-release; printf "%s" "$ID")"
+        os_id="$(. /etc/os-release; printf "%s" "$ID")"
+        if [ "$os_id" == "pop" ]; then
+          os="ubuntu"
+        else
+          os=os_id
+        fi
     else
         os="$kernelName"
     fi
