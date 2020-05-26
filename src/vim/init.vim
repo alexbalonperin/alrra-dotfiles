@@ -190,6 +190,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-abolish'
 Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
+Plug 'godlygeek/tabular'
+Plug 'rcmdnk/vim-markdown'
+Plug 'joker1007/vim-markdown-quote-syntax'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 
 Plug 'scrooloose/syntastic'             " syntax checker
