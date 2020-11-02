@@ -56,3 +56,4 @@ unset -f source_bash_files
 # and time of the last login, the message of the day, etc.).
 
 clear
+if [ -e /home/alex/.nix-profile/etc/profile.d/nix.sh ]; then . /home/alex/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
