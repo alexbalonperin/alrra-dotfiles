@@ -195,6 +195,8 @@
     # https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/config.txt#L2847-L2855
 
     useConfigOnly = true
+	email = alexbp13@gmail.com
+	name = Alexandre Balon-Perin
 
     # [!] DO NOT store sensitive information such as the Git user
     # credentials (`name` / `email`), or things such as the `signingkey`
@@ -212,3 +214,5 @@
     #     by the local ones
 
     path = ~/.gitconfig.local
+[credential]
+	helper = cache --timeout=36000
