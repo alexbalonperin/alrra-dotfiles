@@ -28,6 +28,8 @@ create_symlinks() {
         "tmux/tmux.conf"
 
         "psql/psqlrc"
+
+        "idea/ideavimrc"
     )
 
     if [ "$(get_os)" == "macos" ]; then
