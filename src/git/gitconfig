@@ -20,6 +20,7 @@
     s   = status
     st   = status
     w   = instaweb --httpd=webrick              # Start web-based visualizer.
+    pushup = !git push -u origin HEAD
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
