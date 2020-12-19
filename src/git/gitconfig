@@ -215,4 +215,4 @@
 
     path = ~/.gitconfig.local
 [credential]
-	helper = cache --timeout=36000
+	helper = store
