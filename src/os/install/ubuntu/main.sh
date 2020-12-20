@@ -24,5 +24,6 @@ upgrade
 ./docker.sh
 ./filesystem.sh
 ./programming.sh
+./tlp.sh
 
 ./cleanup.sh

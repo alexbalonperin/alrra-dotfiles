@@ -8,7 +8,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Programming\n\n"
 
-if ! package_is_installed "spotify-client"; then
+if ! package_is_installed "zulu-11"; then
   execute "sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9" \
     "Add Zulu key" \
     || print_error "Java11 (add key)"
