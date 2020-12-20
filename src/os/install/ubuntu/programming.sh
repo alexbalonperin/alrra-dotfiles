@@ -29,7 +29,7 @@ execute "java -version" \
 printf "\n"
 
 if ! package_is_installed "sbt"; then
-  add_to_source_list "https://dl.bintray.com/sbt/debian" "sbt.list" \
+  add_to_source_list "https://dl.bintray.com/sbt/debian /" "sbt.list" \
     || print_error "Sbt (add to package resource list)"
 
   add_key "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" \
