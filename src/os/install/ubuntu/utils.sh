@@ -5,9 +5,17 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+download() {
+  if [ -z "$2" ]; then
+    wget -qO - "$1"
+  else
+    wget -q -O "$2" - "$1"
+  fi
+}
+
 add_key() {
 
-    wget -qO - "$1" | sudo apt-key add - &> /dev/null
+    download "$1" | sudo apt-key add - &> /dev/null
     #     │└─ write output to file
     #     └─ don't show output
 
