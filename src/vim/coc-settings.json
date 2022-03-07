@@ -8,5 +8,7 @@
   },
   "diagnostic.maxWindowHeight": 500,
   "diagnostic.checkCurrentLine": true,
-  "coc.preferences.formatOnSaveFiletypes": ["scala"]
+  "coc.preferences.formatOnSaveFiletypes": ["scala"],
+  "coc.preferences.useQuickfixForLocations": true,
+//  "java.jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar -Xbootclasspath/a:/usr/local/share/lombok/lombok.jar"
 }

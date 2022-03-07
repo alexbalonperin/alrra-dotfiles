@@ -26,8 +26,8 @@ set smartcase  " Case insensitive if no uppercase letter in pattern, case sensit
 set nowrapscan " Don't go back to first match after the last match is found.
 
 " Fold {{{3
-set foldmethod=manual
-set foldlevelstart=20
+set foldmethod=syntax
+set foldlevelstart=5
 
 " Indentation {{{3
 set autoindent
@@ -73,7 +73,7 @@ nnoremap <M-x> <C-w>x
 " Resizing
 nnoremap <M-=> <C-w>=
 nnoremap <M-+> <C-w>10+
-nnoremap <M--> <C-w>10-
+nnoremap <M-_> <C-w>10-
 nnoremap <M-<> <C-w>10<
 nnoremap <M->> <C-w>10>
 
@@ -96,7 +96,7 @@ nnoremap <C-h> :bp<CR>
 nnoremap <leader>b :Buffers<CR>
 
 " Quickfix list {{{3
-noremap <silent> <leader>q :Ctoggle<CR>
+noremap <silent> <leader>q :copen<CR>
 noremap <silent> <S-l> :cprevious<CR>
 noremap <silent> <S-h> :cnext<CR>
 
@@ -194,6 +194,8 @@ Plug 'godlygeek/tabular'
 Plug 'rcmdnk/vim-markdown'
 Plug 'joker1007/vim-markdown-quote-syntax'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'liuchengxu/vista.vim'
+Plug 'ryanoasis/vim-devicons'
 
 
 Plug 'scrooloose/syntastic'             " syntax checker
@@ -234,7 +236,7 @@ augroup END
 au BufRead,BufNewFile *.sbt set filetype=scala
 let g:scala_sort_across_groups=1
 nnoremap <leader>s :SortScalaImports<CR>
-autocmd BufWrite * SortScalaImports
+" autocmd BufWrite * SortScalaImports
 
 " Comment highlights for coc
 autocmd FileType json syntax match Comment +\/\/.\+$+
@@ -359,3 +361,29 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 "
 "" -- neco-ghc
 "let $PATH=$PATH.':'.expand("~/.cabal/bin")
+"
+
+
+" -----------------------------
+"  MACROS
+" ----------------------------
+
+let @a=':%s:\(\s*\)\([^:]*\)::\1"\2"::Ige"\<C-m>":%s:"''\([^:]*\)''":"\1":Ige"\<C-m>":%s:,\n\(\s*\)}:\r\1}:Ige"\<C-m>"'
+
+
+"----------------------------------
+" COC VISTA
+" ---------------------------------
+
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious.
+" e.g., more compact: ["▸ ", ""]
+" Note: this option only works for the kind renderer, not the tree renderer.
+let g:vista_icon_indent = [">", "|>"]
+
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'coc'
+
+nnoremap <silent> <leader>v :Vista<CR>
+
