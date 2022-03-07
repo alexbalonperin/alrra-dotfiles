@@ -22,6 +22,7 @@ if ! package_is_installed "zulu-11"; then
 
 fi
 install_package "Java11" "zulu-11"
+install_package "Java8" "zulu-8"
 
 execute "java -version" \
   "Java Version"
