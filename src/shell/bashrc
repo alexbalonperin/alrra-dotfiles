@@ -5,7 +5,7 @@
 
 
 # SBT options
-export SBT_OPTS="-Xmx4G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xss2M"
+export SBT_OPTS="-Xmx4G -Xss2M"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 eval '

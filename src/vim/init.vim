@@ -175,6 +175,7 @@ let s:PLUGINS_DIR_NAME = "plugged"
 
 call plug#begin(s:NVIM_HOME . "/" . s:PLUGINS_DIR_NAME)
 "Plug 'altercation/vim-colors-solarized'
+Plug 'hashivim/vim-terraform'
 Plug 'derekwyatt/vim-scala'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -189,7 +190,8 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-abolish'
-Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
+" Use CocInstall instead
+"Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 Plug 'godlygeek/tabular'
 Plug 'rcmdnk/vim-markdown'
 Plug 'joker1007/vim-markdown-quote-syntax'
@@ -242,6 +244,7 @@ nnoremap <leader>s :SortScalaImports<CR>
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
 " Configuration for coc.nvim
+let g:coc_node_args = ['--max-old-space-size=8192']
 
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300

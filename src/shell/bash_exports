@@ -77,4 +77,4 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 export PYTHONIOENCODING="UTF-8"
 
-export JAVA_HOME="/usr/lib/jvm/zulu11"
+export JAVA_HOME="/usr/lib/jvm/java-16-openjdk-amd64"

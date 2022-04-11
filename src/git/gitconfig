@@ -216,3 +216,6 @@
     path = ~/.gitconfig.local
 [credential]
 	helper = store
+
+[pull]
+#  ff = only
