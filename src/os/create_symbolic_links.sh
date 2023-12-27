@@ -89,7 +89,7 @@ create_symlinks() {
 create_other_symlinks() {
 
     declare -a FILES_TO_SYMLINK=(
-      "vim/init.vim"
+      "vim/init.lua"
       "vim/coc-settings.json"
     )
     if [ "$(get_os)" == "ubuntu" ]; then
@@ -101,7 +101,7 @@ create_other_symlinks() {
     fi
 
     declare -a TARGETS_FOR_SYMLINK=(
-      "$HOME/.config/nvim/init.vim"
+      "$HOME/.config/nvim/init.lua"
       "$HOME/.config/nvim/coc-settings.json"
     )
     if [ "$(get_os)" == "ubuntu" ]; then
