@@ -34,3 +34,5 @@ alias lt='ls -ltFh'   #long list,sorted by date,show type,human readable
 # Load OS specific aliases.
 
 . "aliases/$OS/bash_aliases"
+
+alias vim="nvim"

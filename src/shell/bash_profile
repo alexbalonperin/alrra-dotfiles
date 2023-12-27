@@ -57,3 +57,7 @@ unset -f source_bash_files
 
 clear
 if [ -e /home/alex/.nix-profile/etc/profile.d/nix.sh ]; then . /home/alex/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+# >>> coursier install directory >>>
+export PATH="$PATH:/home/alex/.local/share/coursier/bin"
+# <<< coursier install directory <<<

@@ -15,19 +15,6 @@ install_package "IRSSI" "irssi"
 execute "curl https://scripts.irssi.org/scripts/dccstat.pl > ~/.irssi/scripts/autorun/dccstat.pl" \
   "IRSSI (Download dccstat script)"
 
-if ! package_is_installed "spotify-client"; then
-  add_key "https://download.spotify.com/debian/pubkey_0D811D58.gpg" \
-    || print_error "Spotify (add key)"
-
-  add_to_source_list "http://repository.spotify.com stable non-free" "spotify.list" \
-    || print_error "Spotify (add to package resource list)"
-
-  update &> /dev/null \
-    || print_error "Spotify (resync package index files)"
-
-fi
-install_package "Spotify" "spotify-client"
-
 
 LASTPASS_FOLDER="lplinux"
 LASTPASS_ARCHIVE="$LASTPASS_FOLDER.tar.bz2"

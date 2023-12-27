@@ -26,8 +26,10 @@ set smartcase  " Case insensitive if no uppercase letter in pattern, case sensit
 set nowrapscan " Don't go back to first match after the last match is found.
 
 " Fold {{{3
-set foldmethod=syntax
-set foldlevelstart=5
+"set foldmethod=syntax
+"set foldlevelstart=0
+
+set nofoldenable    " disable folding
 
 " Indentation {{{3
 set autoindent
@@ -138,7 +140,7 @@ nnoremap <silent> <leader>, :nohlsearch<CR>
 nnoremap <C-\> :<BS>
 
 " Redraws the screen {{{3
-nnoremap <leader>d :redraw!<CR>
+nnoremap <space>d :redraw!<CR>
 
 " Toggle display of tabs and EOF {{{3
 nnoremap <leader>l :set list!<CR>
@@ -174,10 +176,9 @@ let s:NVIM_HOME = "/" . join(split($MYVIMRC, "/")[0 : -2], "/")
 let s:PLUGINS_DIR_NAME = "plugged"
 
 call plug#begin(s:NVIM_HOME . "/" . s:PLUGINS_DIR_NAME)
-"Plug 'altercation/vim-colors-solarized'
+Plug "scalameta/nvim-metals"
 Plug 'hashivim/vim-terraform'
-Plug 'derekwyatt/vim-scala'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'nelstrom/vim-visual-star-search'
@@ -190,17 +191,15 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-abolish'
-" Use CocInstall instead
-"Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
+Plug 'nvim-lua/plenary.nvim'
 Plug 'godlygeek/tabular'
 Plug 'rcmdnk/vim-markdown'
 Plug 'joker1007/vim-markdown-quote-syntax'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
-Plug 'liuchengxu/vista.vim'
 Plug 'ryanoasis/vim-devicons'
-
-
-Plug 'scrooloose/syntastic'             " syntax checker
+Plug 'scrooloose/syntastic'              " syntax checker
+Plug 'AndrewRadev/sideways.vim'              " swap function parameters
+call plug#end()
 " --- Haskell
 "Plug 'yogsototh/haskell-vim'            " syntax indentation / highlight
 "Plug 'enomsg/vim-haskellConcealPlus'    " unicode for haskell operators
@@ -209,17 +208,20 @@ Plug 'scrooloose/syntastic'             " syntax checker
 "Plug 'Twinside/vim-hoogle'
 "Plug 'pbrisbin/html-template-syntax'    " Yesod templates
 " --- End Haskell
-call plug#end()
 
 " SETTINGS {{{2
 " Airline {{{3
-" let g:airline_theme='solarized'
+"let g:airline_theme='solarized'
 let g:airline_powerline_fonts=1
 
 " Solarized {{{3
-" colorscheme solarized
+colorscheme vim
 
 " MAPPINGS {{{2
+" Sideways
+nnoremap <c-Left> :SidewaysLeft<cr>
+nnoremap <c-Right> :SidewaysRight<cr>
+
 " NERDTree {{{3
 nnoremap <silent> <leader>t :NERDTreeToggle<CR>
 nnoremap <silent> <leader>f :NERDTreeFind <CR>
@@ -234,23 +236,26 @@ augroup fugitive_plugin
   autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
 
+nnoremap <silent> <leader>d  :Gdiffsplit<cr>
+nnoremap <silent> <leader>v  :Gvsplit<cr>
+nnoremap <silent> <leader>h  :Gsplit<cr>
+nnoremap <silent> <leader>g  :Git<cr>
+nnoremap <silent> <leader>gl  :Git l<cr>
+
 " Configuration for vim-scala
-au BufRead,BufNewFile *.sbt set filetype=scala
-let g:scala_sort_across_groups=1
-nnoremap <leader>s :SortScalaImports<CR>
+"au BufRead,BufNewFile *.sbt set filetype=scala
+"let g:scala_sort_across_groups=1
+"nnoremap <leader>so :SortScalaImports<CR>
 " autocmd BufWrite * SortScalaImports
 
-" Comment highlights for coc
-autocmd FileType json syntax match Comment +\/\/.\+$+
-
-" Configuration for coc.nvim
-let g:coc_node_args = ['--max-old-space-size=8192']
+"" Comment highlights for coc
+"autocmd FileType json syntax match Comment +\/\/.\+$+
+"
+"" Configuration for coc.nvim
+"let g:coc_node_args = ['--max-old-space-size=8192']
 
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
 
 " Some server have issues with backup files, see #649
 set nobackup
@@ -258,77 +263,127 @@ set nowritebackup
 
 " Better display for messages
 set cmdheight=2
+"-----------------------------------------------------------------------------
+" nvim-lsp Settings
+"-----------------------------------------------------------------------------
+" If you just use the latest stable version, then setting this isn't necessary
+"let g:metals_server_version = '0.9.8+10-334e402e-SNAPSHOT'
 
-" Use <c-space> for trigger completion.
-inoremap <silent><expr> <M-space> coc#refresh()
+"-----------------------------------------------------------------------------
+" nvim-metals setup with a few additions such as nvim-completions
+"-----------------------------------------------------------------------------
+":lua << EOF
+"  metals_config = require'metals'.bare_config()
+"  metals_config.settings = {
+"     showImplicitArguments = true,
+"     excludedPackages = {
+"       "akka.actor.typed.javadsl",
+"       "com.github.swagger.akka.javadsl"
+"     }
+"  }
+"
+"  metals_config.on_attach = function()
+"    require'completion'.on_attach();
+"  end
+"
+"  metals_config.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+"    vim.lsp.diagnostic.on_publish_diagnostics, {
+"      virtual_text = {
+"        prefix = '',
+"      }
+"    }
+"  )
+"EOF
 
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"-----------------------------------------------------------------------------
+" completion-nvim settings
+"-----------------------------------------------------------------------------
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"-----------------------------------------------------------------------------
+" Helpful general settings
+"-----------------------------------------------------------------------------
+" Needed for compltions _only_ if you aren't using completion-nvim
+autocmd FileType scala setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-" Use [c and ]c for navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" Avoid showing message extra message when using completion
+set shortmess+=c
 
-" Remap for do codeAction of current line
-nmap <leader>ac <Plug>(coc-codeaction)
+"" Use <c-space> for trigger completion.
+"inoremap <silent><expr> <M-space> coc#refresh()
+"
+"" Use tab for trigger completion with characters ahead and navigate.
+"" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+"inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"
+"" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+"" Coc only does snippet and additional edit on confirm.
+"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"
+"" Use [c and ]c for navigate diagnostics
+"nmap <silent> [c <Plug>(coc-diagnostic-prev)
+"nmap <silent> ]c <Plug>(coc-diagnostic-next)
+"
+"" Remap keys for gotos
+"nmap <silent> gd <Plug>(coc-definition)
+"nmap <silent> gy <Plug>(coc-type-definition)
+"nmap <silent> gi <Plug>(coc-implementation)
+"nmap <silent> gr <Plug>(coc-references)
+"
+"" Remap for do codeAction of current line
+"nmap <leader>ac <Plug>(coc-codeaction)
+"
+"" Remap for do action format
+"nnoremap <silent> F :call CocAction('format')<CR>
 
-" Remap for do action format
-nnoremap <silent> F :call CocAction('format')<CR>
-
-" Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-" Toggle panel with Tree Views
-nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
-" Toggle Tree View 'metalsBuild'
-nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>
-" Toggle Tree View 'metalsCompile'
-nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>
-" Reveal current current class (trait or object) in Tree View 'metalsBuild'
-nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsBuild<CR>
-
-let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"" Use K for show documentation in preview window
+"nnoremap <silent> K :call <SID>show_documentation()<CR>
+"
+"function! s:show_documentation()
+"  if (index(['vim','help'], &filetype) >= 0)
+"    execute 'h '.expand('<cword>')
+"  else
+"    call CocAction('doHover')
+"  endif
+"endfunction
+"
+"" Highlight symbol under cursor on CursorHold
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+"" Remap for rename current word
+"nmap <leader>rn <Plug>(coc-rename)
+"
+"" Show all diagnostics
+"nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+"" Find symbol of current document
+"nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+"" Search workspace symbols
+"nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+"" Do default action for next item.
+"nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+"" Do default action for previous item.
+"nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+"" Resume latest coc list
+"nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+"" Toggle panel with Tree Views
+"nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
+"" Toggle Tree View 'metalsBuild'
+"nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>
+"" Toggle Tree View 'metalsCompile'
+"nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>
+"" Reveal current current class (trait or object) in Tree View 'metalsBuild'
+"nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsBuild<CR>
+"
+"let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+"let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+"" Add status line support, for integration with other plugin, checkout `:h coc-status`
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " -------------------
 "       Haskell
@@ -372,21 +427,4 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " ----------------------------
 
 let @a=':%s:\(\s*\)\([^:]*\)::\1"\2"::Ige"\<C-m>":%s:"''\([^:]*\)''":"\1":Ige"\<C-m>":%s:,\n\(\s*\)}:\r\1}:Ige"\<C-m>"'
-
-
-"----------------------------------
-" COC VISTA
-" ---------------------------------
-
-" How each level is indented and what to prepend.
-" This could make the display more compact or more spacious.
-" e.g., more compact: ["▸ ", ""]
-" Note: this option only works for the kind renderer, not the tree renderer.
-let g:vista_icon_indent = [">", "|>"]
-
-" Executive used when opening vista sidebar without specifying it.
-" See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista_default_executive = 'coc'
-
-nnoremap <silent> <leader>v :Vista<CR>
 
