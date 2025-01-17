@@ -56,8 +56,10 @@ vim.opt.listchars = {
   trail = '·',
   eol = '↵'
 } -- Invisible characters representation when :set list.
-vim.g.nowrapscan=true -- Don't go back to first match after the last match is found.
-vim.g.nofoldenable=true -- disable folding
+
+-- TODO: fix these
+--vim.g.nowrapscan=true -- Don't go back to first match after the last match is found.
+--vim.g.nofoldenable=true -- disable folding
 
 -- Fold
 --set foldmethod=syntax
@@ -141,13 +143,6 @@ vim.keymap.set('n', '<space>d', ':redraw!<CR>')
 
 -- Toggle display of tabs and EOF
 vim.keymap.set('n', '<leader>l', ':set list!<CR>')
-
--- Remove trailing whitespace
--- use of '<silent>' to hide what would be output on the command line
--- use of ':silent!' to hide error message when pattern is not found
-
-vim.keymap.set('n', '<leader>w', ":silent! execute '/\\v( )+$'<CR>")
-vim.keymap.set('n', '<leader>W', ':silent! execute \'%substitute/\v( )+$//\'<CR>')
 
 -- Modify init.vim easily
 vim.keymap.set('n', '<leader>ev', ':edit $MYVIMRC<CR>')
@@ -281,21 +276,21 @@ require("lazy").setup({
         require("metals").setup_dap()
 
         -- LSP mappings
-        map("n", "gd", vim.lsp.buf.definition)
-        map("n", "K", vim.lsp.buf.hover)
-        map("n", "gi", vim.lsp.buf.implementation)
-        map("n", "gr", vim.lsp.buf.references)
-        map("n", "gds", vim.lsp.buf.document_symbol)
-        map("n", "gws", vim.lsp.buf.workspace_symbol)
+        map("n", "gd", require("fzf-lua").lsp_definitions)
+        map("n", "K", require("fzf-lua").lsp_typedefs)
+        map("n", "gi", require("fzf-lua").lsp_implementations)
+        map("n", "gr", require("fzf-lua").lsp_references)
+        map("n", "gds", require("fzf-lua").lsp_document_symbols)
+        map("n", "gws", require("fzf-lua").lsp_workspace_symbols)
         map("n", "<leader>cl", vim.lsp.codelens.run)
         map("n", "<leader>sh", vim.lsp.buf.signature_help)
         map("n", "<leader>rn", vim.lsp.buf.rename)
-        --map("n", "<leader>f", vim.lsp.buf.format)
-        map("n", "<leader>ca", vim.lsp.buf.code_action)
+        map("n", "<leader>fo", vim.lsp.buf.format)
+        map("n", "<leader>ca", require("fzf-lua").lsp_code_actions)
 
-        map("n", "<leader>ws", function()
-          require("metals").hover_worksheet()
-        end)
+        --map("n", "<leader>ws", function()
+        --  require("metals").hover_worksheet()
+        --end)
 
         -- all workspace diagnostics
         map("n", "<space>a", vim.diagnostic.setqflist)
@@ -373,11 +368,9 @@ require("lazy").setup({
     config = function()
       -- calling `setup` is optional for customization
       require("fzf-lua").setup({})
-      --require("fzf-lua").live_grep({})
-      --  cmd = "ag --ignore node_modules"
-      --)
 
       map('n', '<leader>ss', ':FzfLua live_grep<CR>')
+      map('n', ':Ag', ':FzfLua live_grep<CR>')
       map('n', '<leader>sr', ':FzfLua live_grep_resume<CR>')
       map('n', '<leader>sf', ':FzfLua files<CR>')
     end
@@ -406,7 +399,7 @@ require("lazy").setup({
   {
     'nvim-lualine/lualine.nvim',
     -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
     config = function()
       require('lualine').setup {
         options = {
@@ -430,7 +423,7 @@ require("lazy").setup({
           sections = {
             lualine_a = {'mode'},
             lualine_b = {'branch', 'diff', 'diagnostics'},
-            lualine_c = {'filename'},
+            lualine_c = {'filename', 'lsp_progress'},
             lualine_x = {'encoding', 'fileformat', 'filetype'},
             lualine_y = {'progress'},
             lualine_z = {'location'}
@@ -451,9 +444,9 @@ require("lazy").setup({
     end
   },
   {'tpope/vim-abolish'},
-  {'dense-analysis/ale'},
+  {'dense-analysis/ale'}, -- Manages js/ts linting through the .eslintrc.js or tslint.json file
   {'hashivim/vim-terraform'},
-  {'leafgarland/typescript-vim'},
+  --{'leafgarland/typescript-vim'},
   {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
@@ -461,7 +454,7 @@ require("lazy").setup({
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-          ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "heex", "javascript", "html", "scala", "java", "typescript", "hcl", "css", "dockerfile", "git_config", "graphql", "jq", "lua", "sql", "yaml", "json" },
+          ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "heex", "javascript", "html", "scala", "java", "typescript", "hcl", "css", "dockerfile", "git_config", "graphql", "jq", "lua", "sql", "yaml", "json", "markdown" },
           sync_install = false,
           highlight = {
             enable = true,
@@ -476,11 +469,214 @@ require("lazy").setup({
     end
   },
   {
+      -- See other themes at https://github.com/rockerBOO/awesome-neovim?tab=readme-ov-file#tree-sitter-supported-colorscheme
       "marko-cerovac/material.nvim",
       priority = 100,
       config = function()
           vim.cmd([[colorscheme material]])
       end,
   },
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    config = function()
+
+      require("typescript-tools").setup {
+        on_attach = function(client, bufnr)
+          local opts = { buffer = bufnr }
+
+          map("n", "gd", vim.lsp.buf.definition, opts)
+          map("n", "K", vim.lsp.buf.hover, opts)
+          map("n", "gi", vim.lsp.buf.implementation, opts)
+          map("n", "gr", vim.lsp.buf.references, opts)
+          map("n", "<leader>ds", vim.lsp.buf.document_symbol, opts)
+          map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, opts)
+          map("n", "<leader>cl", vim.lsp.codelens.run, opts)
+          map("n", "<leader>sh", vim.lsp.buf.signature_help, opts)
+          map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+          map("n", "<leader>o", vim.lsp.buf.format)
+          map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+          map("n", "go", ":TSToolsOrganizeImports<CR>", opts)
+          --map("n", "gd", "<CMD>TSToolsGoToSourceDefinition<CR>", opts)
+          --map("n", "gr", "<CMD>TSToolsFileReferences<CR>", opts)
+          map("n", "gn", ":TSToolsRenameFile<CR>", opts)
+          map("n", "gf", ":TSToolsFixAll<CR>", opts)
+          --map("n", "gi", "<CMD>TSToolsAddMissingImports<CR>", opts)
+          --map("n", "go", "<CMD>TSToolsOrganizeImports<CR>", opts)
+        end,
+        handlers = {
+           -- List of error codes can be found here: https://github.com/microsoft/TypeScript/blob/v4.7.3/src/compiler/diagnosticMessages.json
+           ["textDocument/publishDiagnostics"] = require("typescript-tools.api").filter_diagnostics(
+            {
+              -- 95114  -- Add all missing return statement
+            }
+           ),
+        },
+        settings = {
+          -- spawn additional tsserver instance to calculate diagnostics on it
+          separate_diagnostic_server = true,
+          -- "change"|"insert_leave" determine when the client asks the server about diagnostic
+          publish_diagnostic_on = "insert_leave",
+          -- array of strings("fix_all"|"add_missing_imports"|"remove_unused"|
+          -- "remove_unused_imports"|"organize_imports") -- or string "all"
+          -- to include all supported code actions
+          -- specify commands exposed as code_actions
+          expose_as_code_action = {},
+          -- string|nil - specify a custom path to `tsserver.js` file, if this is nil or file under path
+          -- not exists then standard path resolution strategy is applied
+          tsserver_path = nil,
+          -- specify a list of plugins to load by tsserver, e.g., for support `styled-components`
+          -- (see 💅 `styled-components` support section)
+          tsserver_plugins = {},
+          -- this value is passed to: https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes
+          -- memory limit in megabytes or "auto"(basically no limit)
+          tsserver_max_memory = "auto",
+          -- described below
+          tsserver_format_options = {},
+          tsserver_file_preferences = {},
+          -- locale of all tsserver messages, supported locales you can find here:
+          -- https://github.com/microsoft/TypeScript/blob/3c221fc086be52b19801f6e8d82596d04607ede6/src/compiler/utilitiesPublic.ts#L620
+          tsserver_locale = "en",
+          -- mirror of VSCode's `typescript.suggest.completeFunctionCalls`
+          complete_function_calls = false,
+          include_completions_with_insert_text = true,
+          -- CodeLens
+          -- WARNING: Experimental feature also in VSCode, because it might hit performance of server.
+          -- possible values: ("off"|"all"|"implementations_only"|"references_only")
+          code_lens = "off",
+          -- by default code lenses are displayed on all referencable values and for some of you it can
+          -- be too much this option reduce count of them by removing member references from lenses
+          disable_member_code_lens = true,
+          -- JSXCloseTag
+          -- WARNING: it is disabled by default (maybe you configuration or distro already uses nvim-auto-tag,
+          -- that maybe have a conflict if enable this feature. )
+          jsx_close_tag = {
+              enable = false,
+              filetypes = { "javascriptreact", "typescriptreact" },
+          }
+        },
+      }
+    end
+  },
+  {
+    "j-hui/fidget.nvim",
+    tag = "v1.2.0",
+    opts = {
+      -- options
+    },
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        panel = { enabled = false },
+        suggestion = { enabled = false },
+        filetypes = {
+          yaml = false,
+          markdown = false,
+          help = false,
+          gitcommit = false,
+          gitrebase = false,
+          hgcommit = false,
+          svn = false,
+          cvs = false,
+          ["."] = false,
+        },
+        copilot_node_command = 'node', -- Node.js version must be > 18.x
+        server_opts_overrides = {},
+      })
+    end,
+  },
+  {
+      "hrsh7th/nvim-cmp",
+      config = function()
+          local cmp = require'cmp'
+          --   פּ ﯟ   some other good icons
+          local kind_icons = {
+            Text = "",
+            Method = "m",
+            Function = "",
+            Constructor = "",
+            Field = "",
+            Variable = "",
+            Class = "",
+            Interface = "",
+            Module = "",
+            Property = "",
+            Unit = "",
+            Value = "",
+            Enum = "",
+            Keyword = "",
+            Snippet = "",
+            Color = "",
+            File = "",
+            Reference = "",
+            Folder = "",
+            EnumMember = "",
+            Constant = "",
+            Struct = "",
+            Event = "",
+            Operator = "",
+            TypeParameter = "",
+            Copilot = "",
+          }
+          -- find more here: https://www.nerdfonts.com/cheat-sheet
+          cmp.setup({
+            snippet = {
+              -- REQUIRED - you must specify a snippet engine
+              expand = function(args)
+                vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+                -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+                -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+              end,
+            },
+            window = {
+              -- completion = cmp.config.window.bordered(),
+              -- documentation = cmp.config.window.bordered(),
+            },
+            mapping = cmp.mapping.preset.insert({
+              ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+              ['<C-f>'] = cmp.mapping.scroll_docs(4),
+              ['<C-Space>'] = cmp.mapping.complete(),
+              ['<C-e>'] = cmp.mapping.abort(),
+              ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            }),
+            sources = cmp.config.sources({
+              { name = 'nvim_lsp' },
+              { name = 'copilot', index = 2 },
+            }, {
+              { name = 'buffer' },
+            }),
+            formatting = {
+              fields = { "kind", "abbr", "menu" },
+              format = function(entry, vim_item)
+                -- Kind icons
+                vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+                -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+                vim_item.menu = ({
+                  nvim_lsp = "[LSP]",
+                  luasnip = "[Snippet]",
+                  buffer = "[Buffer]",
+                  path = "[Path]",
+                  copilot = "[Copilot]",
+                })[entry.source.name]
+                return vim_item
+              end,
+            },
+        })
+      end,
+  },
+  {
+      "zbirenbaum/copilot-cmp",
+      config = function()
+          require("copilot_cmp").setup({})
+      end,
+  },
 })
 
+
+vim.g.ale_lsp_show_message_severity="disabled"  -- Ale errors

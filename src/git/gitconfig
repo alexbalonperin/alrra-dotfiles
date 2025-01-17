@@ -18,8 +18,9 @@
     p   = push
     r   = rebase
     s   = status
-    st   = status
+    st  = status
     w   = instaweb --httpd=webrick              # Start web-based visualizer.
+    rs  = restore --staged
     pushup = !git push -u origin HEAD
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
