@@ -8,7 +8,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 create_symlinks() {
 
     declare -a FILES_TO_SYMLINK=(
-
         "shell/aliases/bash_aliases"
         "shell/autocomplete/$(get_os)/bash_autocomplete"
         "shell/bash_exports"
@@ -28,8 +27,6 @@ create_symlinks() {
         "tmux/tmux.conf"
 
         "psql/psqlrc"
-
-        "idea/ideavimrc"
     )
 
     if [ "$(get_os)" == "macos" ]; then
@@ -90,7 +87,6 @@ create_other_symlinks() {
 
     declare -a FILES_TO_SYMLINK=(
       "vim/init.lua"
-      "vim/coc-settings.json"
     )
     if [ "$(get_os)" == "ubuntu" ]; then
       FILES_TO_SYMLINK+=("irssi/irssi")
@@ -102,7 +98,6 @@ create_other_symlinks() {
 
     declare -a TARGETS_FOR_SYMLINK=(
       "$HOME/.config/nvim/init.lua"
-      "$HOME/.config/nvim/coc-settings.json"
     )
     if [ "$(get_os)" == "ubuntu" ]; then
       TARGETS_FOR_SYMLINK+=("$HOME/.irssi/config")
