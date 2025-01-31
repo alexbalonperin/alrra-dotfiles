@@ -174,6 +174,44 @@ vim.opt.rtp:prepend(lazypath)
 ----------------------------------
 require("lazy").setup({
   {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      local mason_lsp = require('mason-lspconfig')
+      mason_lsp.setup({
+        ensure_installed = {
+          'bashls',
+          'cssls',
+          'eslint',
+          'html',
+          'jsonls',
+          'lua_ls',
+          'pyright',
+          'rust_analyzer',
+          'sqlls',
+          -- managed by typescript-tools
+          'ts_ls',
+        },
+        automatic_installation = true,
+      })
+      mason_lsp.setup_handlers({
+        -- default setup for all servers (without a key)
+        function(server_name)
+          require('lspconfig')[server_name].setup({})
+        end,
+       -- LSP specific handlers
+        ['ts_ls'] = function()
+          -- do nothing, managed by typescript-tools
+        end
+      })
+    end,
+  },
+  {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
@@ -481,7 +519,6 @@ require("lazy").setup({
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
     config = function()
-
       require("typescript-tools").setup {
         on_attach = function(client, bufnr)
           local opts = { buffer = bufnr }

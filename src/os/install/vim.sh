@@ -24,7 +24,8 @@ main() {
     print_in_purple "\n   Vim\n\n"
 
     "./$(get_os)/vim.sh"
-    install_vimplug
+    # Using Lazy instead of vim-plug now
+    # install_vimplug
     install_plugins
 
 }
