@@ -78,3 +78,4 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 export PYTHONIOENCODING="UTF-8"
 
 export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+export GPG_TTY=$(tty)
