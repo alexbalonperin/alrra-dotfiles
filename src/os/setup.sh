@@ -148,8 +148,8 @@ extract() {
 
 verify_os() {
 
-    declare -r MINIMUM_MACOS_VERSION="10.10"
-    declare -r MINIMUM_UBUNTU_VERSION="18.04"
+    declare -r MINIMUM_MACOS_VERSION="15.2"
+    declare -r MINIMUM_UBUNTU_VERSION="22.04"
 
     local os_name="$(get_os)"
     local os_version="$(get_os_version)"

@@ -16,14 +16,13 @@ brew_install "Scala" "scala"
 brew_install "Sbt" "sbt"
 brew_install "Ag" "the_silver_searcher"
 brew_install "Diff so fancy" "diff-so-fancy"
-brew_install "GPG" "gpg"
 brew_install "JQ" "jq"
 brew_install "Tor" "tor"
 brew_install "Docker" "docker"
-brew_install "Docker Compose" "docker-compose"
+#brew_install "Docker Compose" "docker-compose"
 brew_install "Direnv" "direnv"
 #brew_install "Visual Studio Code" "visual-studio-code" "caskroom/cask" "cask"
 
-if [ -d "$HOME/.nvm" ]; then
-    brew_install "Yarn" "yarn"
-fi
+#if [ -d "$HOME/.nvm" ]; then
+#    brew_install "Yarn" "yarn"
+#fi

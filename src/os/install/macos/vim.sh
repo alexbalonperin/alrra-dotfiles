@@ -26,4 +26,4 @@ brew_install "Neovim" "neovim"
 brew_install "Python" "python"
 pip3 install pynvim
 
-install_metals
+# install_metals
