@@ -96,16 +96,16 @@ vim.keymap.set('n', '<M-L>', '<C-w>L')
 vim.keymap.set('n', '<M-x>', '<C-w>x')
 
 -- Resizing
-vim.keymap.set('n', '<M-=>', '<C-w>=')
-vim.keymap.set('n', '<M-+>', '<C-w>10+')
-vim.keymap.set('n', '<M-_>', '<C-w>10-')
-vim.keymap.set('n', '<M-<>', '<C-w>10<')
-vim.keymap.set('n', '<M->>', '<C-w>10>')
+vim.keymap.set('n', '<S-=>', '<C-w>=')
+vim.keymap.set('n', '<S-Up>', '<C-w>10+')
+vim.keymap.set('n', '<S-Down>', '<C-w>10-')
+vim.keymap.set('n', '<S-Left>', '<C-w>10<')
+vim.keymap.set('n', '<S-Right>', '<C-w>10>')
 
 -- Creating
-vim.keymap.set('n', '<M-n>', '<C-w>n')
-vim.keymap.set('n', '<M-s>', '<C-w>s')
-vim.keymap.set('n', '<M-v>', '<C-w>v')
+vim.keymap.set('n', '<leader>n', '<C-w>n')
+vim.keymap.set('n', '<leader>h', '<C-w>s')
+vim.keymap.set('n', '<leader>v', '<C-w>v')
 vim.keymap.set('n', '<M-]>', '<C-w>g<C-]>')
 
 -- Closing
@@ -188,6 +188,7 @@ require("lazy").setup({
           api_key_name = "",
           endpoint = "http://127.0.0.1:11434/v1",
           model = "codellama:13b",
+          disable_tools = true,
         },
       },
       -- WARNING: Since auto-suggestions are a high-frequency operation and therefore expensive,
