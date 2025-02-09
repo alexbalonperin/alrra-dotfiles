@@ -219,7 +219,7 @@
 	helper = store
 
 [pull]
-#  ff = only
+	ff = only
 
 [commit]
 	gpgsign = true
