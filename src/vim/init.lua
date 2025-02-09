@@ -187,7 +187,7 @@ require("lazy").setup({
           __inherited_from = "openai",
           api_key_name = "",
           endpoint = "http://127.0.0.1:11434/v1",
-          model = "codellama:13b",
+          model = "deepseek-r1:latest",
           disable_tools = true,
         },
       },
