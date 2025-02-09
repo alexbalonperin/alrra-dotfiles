@@ -19,9 +19,6 @@ execute "defaults write com.apple.finder FXInfoPanesExpanded -dict \
     "Expand the following File Info panes:" \
     " 'General', 'Open with', and 'Sharing & Permissions'"
 
-execute "defaults write com.apple.dashboard mcx-disabled -bool true" \
-    "Disable Dashboard"
-
 execute "defaults write com.apple.finder _FXShowPosixPathInTitle -bool true" \
     "Use full POSIX path as window title"
 

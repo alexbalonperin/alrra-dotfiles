@@ -36,10 +36,10 @@ execute "defaults write org.m0k.transmission WarningLegal -bool false" \
 execute "defaults write org.m0k.transmission RandomPort -bool true" \
     "Randomize port on launch"
 
-execute "defaults write org.m0k.transmission BlocklistNew -bool true \
-         defaults write org.m0k.transmission BlocklistURL -string \"http://john.bitsurge.net/public/biglist.p2p.gz\" \
+execute "defaults write org.m0k.transmission BlocklistNew -bool true && \
+         defaults write org.m0k.transmission BlocklistURL -string \"https://github.com/Naunter/BT_BlockLists/raw/master/bt_blocklists.gz\" && \
          defaults write org.m0k.transmission BlocklistAutoUpdate -bool true" \
    "IP block list." \
-   "Source: https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/"
+   "Source: https://github.com/Naunter/BT_BlockLists/raw/master/bt_blocklists.gz"
 
 killall "Transmission" &> /dev/null

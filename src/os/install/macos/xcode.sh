@@ -24,7 +24,7 @@ install_xcode() {
     # If necessary, prompt user to install `Xcode`.
 
     if ! is_xcode_installed; then
-        open "macappstores://itunes.apple.com/en/app/xcode/id497799835"
+        open "https://apps.apple.com/jp/app/xcode/id497799835?l=en-US&mt=12"
     fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -91,7 +91,7 @@ create_other_symlinks() {
     if [ "$(get_os)" == "ubuntu" ]; then
       FILES_TO_SYMLINK+=("irssi/irssi")
     elif [ "$(get_os)" == "macos" ]; then
-      FILES_TO_SYMLINK+=("spectacle/spectacle.json")
+      #FILES_TO_SYMLINK+=("spectacle/spectacle.json")
     else
       print_error "unknown os $(get_os)"
     fi
@@ -102,7 +102,7 @@ create_other_symlinks() {
     if [ "$(get_os)" == "ubuntu" ]; then
       TARGETS_FOR_SYMLINK+=("$HOME/.irssi/config")
     elif [ "$(get_os)" == "macos" ]; then
-      TARGETS_FOR_SYMLINK+=("$HOME/Library/Application\ Support/Spectacle/Shortcuts.json")
+      #TARGETS_FOR_SYMLINK+=("$HOME/Library/Application\ Support/Spectacle/Shortcuts.json")
     else
       print_error "unknown os $(get_os)"
     fi

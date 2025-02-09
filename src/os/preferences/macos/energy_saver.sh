@@ -5,6 +5,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+print_in_purple "\n   Energy Saver\n\n"
+
 execute "pmset -a lidwake 1" \
   "Enable lid wakeup"
 

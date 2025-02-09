@@ -26,7 +26,7 @@ main() {
     "./$(get_os)/vim.sh"
     # Using Lazy instead of vim-plug now
     # install_vimplug
-    install_plugins
+    # install_plugins
 
 }
 
